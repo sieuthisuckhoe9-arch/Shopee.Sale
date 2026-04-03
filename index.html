@@ -5,80 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tạo link Shopee</title>
 
-<style>.voucher-box {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 12px;
-  margin-top: 15px;
-  padding: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.voucher-left {
-  background: #ff5722;
-  padding: 12px;
-  border-radius: 10px;
-}
-
-.circle {
-  width: 30px;
-  height: 30px;
-  background: #1877f2;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.voucher-content {
-  flex: 1;
-  margin-left: 10px;
-}
-
-.title {
-  font-weight: bold;
-  color: #ff5722;
-}
-
-.desc {
-  font-size: 13px;
-}
-
-.tag {
-  display: inline-block;
-  font-size: 12px;
-  color: #ff5722;
-  border: 1px solid #ff5722;
-  padding: 2px 6px;
-  border-radius: 6px;
-  margin-top: 3px;
-}
-
-.progress {
-  height: 4px;
-  background: #eee;
-  margin: 5px 0;
-  border-radius: 4px;
-}
-
-.bar {
-  width: 93%;
-  height: 100%;
-  background: orange;
-  border-radius: 4px;
-}
-
-.btn-use {
-  background: #ff5722;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-}
-</style>
+<style>
 body {
   font-family: Arial;
   background: #fff5f2;
@@ -145,6 +72,82 @@ body {
   padding: 15px;
   border-radius: 12px;
 }
+
+/* ===== VOUCHER ===== */
+.voucher-box {
+  display: none;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  margin-top: 15px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.voucher-left {
+  background: #ff5722;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  background: #1877f2;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.voucher-content {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.voucher-title {
+  font-weight: bold;
+  color: #ff5722;
+}
+
+.voucher-desc {
+  font-size: 13px;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  color: #ff5722;
+  border: 1px solid #ff5722;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-top: 3px;
+}
+
+.progress {
+  height: 4px;
+  background: #eee;
+  margin: 5px 0;
+  border-radius: 4px;
+}
+
+.bar {
+  width: 93%;
+  height: 100%;
+  background: orange;
+  border-radius: 4px;
+}
+
+.btn-use {
+  background: #ee4d2d;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 </style>
 </head>
 
@@ -162,6 +165,28 @@ body {
 
     <div id="result" class="result"></div>
     <button class="copy-btn" onclick="copyLink()">Copy link</button>
+
+    <!-- ✅ VOUCHER -->
+    <div id="voucher" class="voucher-box">
+      <div class="voucher-left">
+        <div class="circle">f</div>
+      </div>
+
+      <div class="voucher-content">
+        <div class="voucher-title">Giảm 25% - Tối đa 1tr</div>
+        <div class="voucher-desc">Đơn tối thiểu 50k</div>
+        <div class="tag">Độc quyền Facebook</div>
+
+        <div class="progress">
+          <div class="bar"></div>
+        </div>
+
+        <small>Đã dùng 93% • Sắp hết</small>
+      </div>
+
+      <button class="btn-use" onclick="openLink()">Dùng ngay</button>
+    </div>
+
   </div>
 
   <div class="guide">
@@ -195,32 +220,25 @@ function taoLink() {
 
   document.getElementById("result").innerHTML =
     "Link của bạn:<br><b>" + currentLink + "</b>";
+
+  // ✅ HIỆN VOUCHER
+  document.getElementById("voucher").style.display = "flex";
 }
 
-function copyLink()
-<div class="voucher-box">
-  <div class="voucher-left">
-    <div class="circle">f</div>
-  </div>
-
-  <div class="voucher-content">
-    <div class="title">Giảm 25% - Tối đa 1tr</div>
-    <div class="desc">Đơn tối thiểu 50k</div>
-    <div class="tag">Độc quyền Facebook</div>
-
-    <div class="progress">
-      <div class="bar"></div>
-    </div>
-
-    <small>Đã dùng 93% • Sắp hết</small>
-  </div>
-
-  <button class="btn-use">Dùng ngay</button>
-</div>{
+function copyLink() {
   if (!currentLink) return alert("Chưa có link!");
 
   navigator.clipboard.writeText(currentLink);
   alert("Đã copy!");
+}
+
+// ✅ MỞ LINK KHI BẤM "DÙNG NGAY"
+function openLink() {
+  if (!currentLink) {
+    alert("Chưa có link!");
+    return;
+  }
+  window.open(currentLink, "_blank");
 }
 </script>
 
