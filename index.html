@@ -124,7 +124,26 @@ function taoLink() {
     "Link của bạn:<br><b>" + currentLink + "</b>";
 }
 
-function copyLink() {
+function copyLink()
+<div class="voucher-box">
+  <div class="voucher-left">
+    <div class="circle">f</div>
+  </div>
+
+  <div class="voucher-content">
+    <div class="title">Giảm 25% - Tối đa 1tr</div>
+    <div class="desc">Đơn tối thiểu 50k</div>
+    <div class="tag">Độc quyền Facebook</div>
+
+    <div class="progress">
+      <div class="bar"></div>
+    </div>
+
+    <small>Đã dùng 93% • Sắp hết</small>
+  </div>
+
+  <button class="btn-use">Dùng ngay</button>
+</div>{
   if (!currentLink) return alert("Chưa có link!");
 
   navigator.clipboard.writeText(currentLink);
