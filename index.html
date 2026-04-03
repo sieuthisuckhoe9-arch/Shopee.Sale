@@ -75,7 +75,7 @@ body {
 
 /* ===== VOUCHER ===== */
 .voucher-box {
-  display: none;
+  display: flex; /* 🔥 HIỆN LUÔN */
   align-items: center;
   background: #fff;
   border-radius: 12px;
@@ -166,8 +166,8 @@ body {
     <div id="result" class="result"></div>
     <button class="copy-btn" onclick="copyLink()">Copy link</button>
 
-    <!-- ✅ VOUCHER -->
-    <div id="voucher" class="voucher-box">
+    <!-- ✅ VOUCHER HIỆN LUÔN -->
+    <div class="voucher-box">
       <div class="voucher-left">
         <div class="circle">f</div>
       </div>
@@ -220,9 +220,6 @@ function taoLink() {
 
   document.getElementById("result").innerHTML =
     "Link của bạn:<br><b>" + currentLink + "</b>";
-
-  // ✅ HIỆN VOUCHER
-  document.getElementById("voucher").style.display = "flex";
 }
 
 function copyLink() {
@@ -232,7 +229,6 @@ function copyLink() {
   alert("Đã copy!");
 }
 
-// ✅ MỞ LINK KHI BẤM "DÙNG NGAY"
 function openLink() {
   if (!currentLink) {
     alert("Chưa có link!");
