@@ -51,12 +51,6 @@ body {
   padding: 12px 16px;
 }
 
-.result {
-  margin-top: 15px;
-  word-break: break-all;
-  color: green;
-}
-
 .copy-btn {
   margin-top: 10px;
   background: #4caf50;
@@ -66,33 +60,28 @@ body {
   border-radius: 8px;
 }
 
-.guide {
-  margin-top: 25px;
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-}
-
 /* ===== VOUCHER ===== */
-.voucher-box {
-  display: flex; /* 🔥 HIỆN LUÔN */
+.voucher {
+  display: flex;
   align-items: center;
   background: #fff;
+  margin-top: 12px;
   border-radius: 12px;
-  margin-top: 15px;
-  padding: 10px;
+  overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-.voucher-left {
+.v-left {
+  width: 70px;
   background: #ff5722;
-  padding: 12px;
-  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.circle {
-  width: 30px;
-  height: 30px;
+.fb-icon {
+  width: 36px;
+  height: 36px;
   background: #1877f2;
   color: #fff;
   font-weight: bold;
@@ -102,51 +91,63 @@ body {
   justify-content: center;
 }
 
-.voucher-content {
+.v-content {
   flex: 1;
-  margin-left: 10px;
+  padding: 10px;
 }
 
-.voucher-title {
+.v-title {
   font-weight: bold;
   color: #ff5722;
 }
 
-.voucher-desc {
+.v-sub {
   font-size: 13px;
 }
 
-.tag {
+.v-tag {
   display: inline-block;
-  font-size: 12px;
-  color: #ff5722;
+  font-size: 11px;
   border: 1px solid #ff5722;
+  color: #ff5722;
   padding: 2px 6px;
   border-radius: 6px;
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .progress {
   height: 4px;
   background: #eee;
-  margin: 5px 0;
+  margin: 6px 0;
   border-radius: 4px;
 }
 
 .bar {
-  width: 93%;
   height: 100%;
   background: orange;
   border-radius: 4px;
 }
 
-.btn-use {
-  background: #ee4d2d;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
+.v-footer {
+  font-size: 11px;
+  color: #777;
+}
+
+.v-btn {
+  margin-right: 10px;
+  background: #fff;
+  border: 1px solid #ff5722;
+  color: #ff5722;
+  padding: 6px 10px;
   border-radius: 8px;
-  cursor: pointer;
+}
+
+/* guide */
+.guide {
+  margin-top: 25px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
 }
 </style>
 </head>
@@ -156,36 +157,16 @@ body {
 <div class="container">
   <div class="card">
     <div class="title">🔥 Tạo link Shopee</div>
-    <p>Dán link sản phẩm để lấy link ưu đãi</p>
 
     <div class="input-box">
       <input id="linkInput" placeholder="Dán link Shopee...">
       <button onclick="taoLink()">Tạo</button>
     </div>
 
-    <div id="result" class="result"></div>
     <button class="copy-btn" onclick="copyLink()">Copy link</button>
 
-    <!-- ✅ VOUCHER HIỆN LUÔN -->
-    <div class="voucher-box">
-      <div class="voucher-left">
-        <div class="circle">f</div>
-      </div>
-
-      <div class="voucher-content">
-        <div class="voucher-title">Giảm 25% - Tối đa 1tr</div>
-        <div class="voucher-desc">Đơn tối thiểu 50k</div>
-        <div class="tag">Độc quyền Facebook</div>
-
-        <div class="progress">
-          <div class="bar"></div>
-        </div>
-
-        <small>Đã dùng 93% • Sắp hết</small>
-      </div>
-
-      <button class="btn-use" onclick="openLink()">Dùng ngay</button>
-    </div>
+    <!-- 🔥 DANH SÁCH VOUCHER -->
+    <div id="voucherList"></div>
 
   </div>
 
@@ -200,17 +181,60 @@ body {
 
 <script>
 let currentLink = "";
-
-// ⚠️ THAY ID CỦA BẠN
 const AFF_ID = "17300990486";
+
+// 🎲 random voucher
+function randomVoucher() {
+  let percent = [10,15,20,25,30,40,50];
+  let p = percent[Math.floor(Math.random()*percent.length)];
+  let used = Math.floor(Math.random()*30)+70;
+
+  return {
+    title: "Giảm " + p + "% - Tối đa 1tr",
+    used: used
+  };
+}
+
+// 🔥 tạo danh sách voucher
+function renderVoucher() {
+  let html = "";
+
+  for (let i=0;i<2;i++) {
+    let v = randomVoucher();
+
+    html += `
+    <div class="voucher">
+      <div class="v-left">
+        <div class="fb-icon">f</div>
+      </div>
+
+      <div class="v-content">
+        <div class="v-title">${v.title}</div>
+        <div class="v-sub">Đơn tối thiểu 50k</div>
+        <div class="v-tag">Độc quyền Facebook</div>
+
+        <div class="progress">
+          <div class="bar" style="width:${v.used}%"></div>
+        </div>
+
+        <div class="v-footer">Đã dùng ${v.used}% • Sắp hết</div>
+      </div>
+
+      <button class="v-btn" onclick="openLink()">Dùng ngay</button>
+    </div>
+    `;
+  }
+
+  document.getElementById("voucherList").innerHTML = html;
+}
+
+// chạy ngay khi vào trang
+renderVoucher();
 
 function taoLink() {
   let link = document.getElementById("linkInput").value;
 
-  if (!link) {
-    alert("Nhập link!");
-    return;
-  }
+  if (!link) return alert("Nhập link!");
 
   if (link.includes("?")) {
     currentLink = link + "&af_siteid=" + AFF_ID;
@@ -218,20 +242,18 @@ function taoLink() {
     currentLink = link + "?af_siteid=" + AFF_ID;
   }
 
-  document.getElementById("result").innerHTML =
-    "Link của bạn:<br><b>" + currentLink + "</b>";
+  alert("Đã tạo link!");
 }
 
 function copyLink() {
   if (!currentLink) return alert("Chưa có link!");
-
   navigator.clipboard.writeText(currentLink);
   alert("Đã copy!");
 }
 
 function openLink() {
   if (!currentLink) {
-    alert("Chưa có link!");
+    alert("Bạn chưa tạo link!");
     return;
   }
   window.open(currentLink, "_blank");
